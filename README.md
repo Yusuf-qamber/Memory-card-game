@@ -35,7 +35,7 @@ Match all pairs before time runs out to win. Stay sharp and have fun!
 
 ## 📚 Attributions
 
-- [Icons from Font Awesome](https://www.flaticon.com/)
+- [Icons from Flaticon](https://www.flaticon.com/)
 
 ## 🚧 Next Steps
 
