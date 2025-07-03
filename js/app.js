@@ -3,53 +3,65 @@ const allMatchedPaires = 6;
 
 /*---------- Variables (state) ---------*/
 let timeLeft;
-let timer = 0;
-let matchedPaires = 0;
-let flippedCards = 0;
-let flippedPair = [];
-let isChecking = false;
-let winner = false;
-let gameover = false;
+let timer;
+let matchedPaires;
+let flippedCards;
+let flippedPair;
+let isChecking;
+let winner;
+let gameover;
+let gameStarted;
 
 /*----- Cached Element References  -----*/
 const cards = document.querySelectorAll(".card");
 const gameContainer = document.querySelector(".game-container");
-const resetButton = document.querySelector(".reset");
 const timerSpan = document.querySelector(".timer");
 const playButton = document.querySelector(".play");
 const message = document.querySelector(".game-message");
 
 /*-------------- Functions -------------*/
 function init() {
-  playButton.textContent = "Reset";
+  let timer = 0;
+  flippedCards = 0;
+  flippedPair = [];
+  matchedPaires = 0;
+  isChecking = false;
   gameover = false;
-  timeLeft = 5;
+  winner = false;
+  gameStarted = false;
+
+  playButton.textContent = "Reset";
   message.textContent = "";
   clearInterval(timer);
+  timeLeft = 50;
   timerSpan.textContent = timeLeft;
-  winner = false;
-
-  timer = setInterval(() => {
-    timeLeft--;
-    timerSpan.textContent = timeLeft;
-    if (timeLeft === 0) clearInterval(timer);
-    if (timeLeft === 0 && !winner) {
-      message.textContent = "You lose";
-      gameover = true;
-    }
-    if (winner) clearInterval(timer);
-  }, 1000);
 
   const cardArray = Array.from(cards);
   shuffle(cardArray, gameContainer);
   cards.forEach((card) => card.classList.remove("flipped"));
-  flippedCards = 0;
-  flippedPair = [];
-  matchedPaires = 0;
-  isPair = false;
-}
 
-// function render() {}
+  setTimeout(() => {
+    cards.forEach((card) => card.classList.add("flipped"));
+
+    setTimeout(() => {
+      cards.forEach((card) => card.classList.remove("flipped"));
+      gameStarted = true;
+
+      timer = setInterval(() => {
+        timeLeft--;
+        timerSpan.textContent = timeLeft;
+
+        if (timeLeft === 0 && !winner) {
+          clearInterval(timer);
+          message.textContent = "⏱️ Time’s Up!";
+          gameover = true;
+        }
+
+        if (winner) clearInterval(timer);
+      }, 1000);
+    }, 3000);
+  }, 300);
+}
 
 function shuffle(cardsArray, container) {
   for (let i = cardsArray.length - 1; i > 0; i--) {
@@ -61,21 +73,22 @@ function shuffle(cardsArray, container) {
   }
   cardsArray.forEach((card) => container.appendChild(card));
 }
+
 function checkForPairs() {
   if (matchedPaires === allMatchedPaires) {
-    message.textContent = "You win";
+    message.textContent = "🎉 You Win! Great Memory!";
     winner = true;
     clearInterval(timer);
   }
-  return;
 }
 
 /*----------- Event Listeners ----------*/
 cards.forEach((card) => {
   card.addEventListener("click", () => {
     if (
+      !gameStarted ||
       gameover ||
-      isPair ||
+      isChecking ||
       card.classList.contains("flipped") ||
       flippedPair.length === 2
     )
@@ -86,13 +99,12 @@ cards.forEach((card) => {
 
     if (flippedPair.length === 2) {
       isChecking = true;
-      const firstCard = flippedPair[0];
-      const secondCard = flippedPair[1];
+      const [firstCard, secondCard] = flippedPair;
 
       if (firstCard.dataset.lang === secondCard.dataset.lang) {
         matchedPaires++;
         flippedPair = [];
-        isPair = false;
+        isChecking = false;
         checkForPairs();
       } else {
         setTimeout(() => {
@@ -103,9 +115,7 @@ cards.forEach((card) => {
         }, 700);
       }
     }
-    console.log(matchedPaires);
   });
 });
 
-resetButton.addEventListener("click", init);
 playButton.addEventListener("click", init);
