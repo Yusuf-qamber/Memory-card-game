@@ -18,10 +18,13 @@ const gameContainer = document.querySelector(".game-container");
 const timerSpan = document.querySelector(".timer");
 const playButton = document.querySelector(".play");
 const message = document.querySelector(".game-message");
+const guideButton = document.querySelector(".guide");
+const guidePopup = document.querySelector(".guide-popup");
+const closeButton = document.querySelector(".close");
 
 /*-------------- Functions -------------*/
 function init() {
-  let timer = 0;
+  clearInterval(timer);
   flippedCards = 0;
   flippedPair = [];
   matchedPaires = 0;
@@ -119,3 +122,9 @@ cards.forEach((card) => {
 });
 
 playButton.addEventListener("click", init);
+guideButton.addEventListener("click", () => {
+  guidePopup.classList.remove("hidden");
+});
+closeButton.addEventListener("click", () => {
+  guidePopup.classList.add("hidden");
+});

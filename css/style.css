@@ -111,7 +111,9 @@ header p {
   gap: 10px;
 }
 
-.play {
+.play,
+.guide,
+.close {
   font-family: "Bitcount Grid Double", monospace;
   padding: 10px 20px;
   background-color: #a8d1d1;
@@ -121,7 +123,46 @@ header p {
   font-size: 16px;
   cursor: pointer;
 }
-
-.reset:hover {
+.play:hover,
+.guide:hover,
+.close:hover {
   background-color: #91c8c8;
+}
+
+.guide-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.guide-content {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  font-family: "Dosis", sans-serif;
+}
+h2 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+li {
+  text-align: left;
+  margin-bottom: 5px;
+}
+ul {
+  margin-bottom: 20px;
+}
+
+.hidden {
+  display: none;
 }
