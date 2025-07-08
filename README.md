@@ -1,6 +1,6 @@
 # 🎮🎮 Memory Card Game
 
-![Game Screenshot](./assets/game-image.png)
+![Game Screenshot](./assets/image.png)
 
 ## 🕹️ Description
 
